@@ -1,17 +1,26 @@
 name: Sync Fork
 
 on:
-  schedule:
-  # Runs every day at 00:00 UTC
-  - cron: '0 0 * * *'
-  workflow_dispatch:
+schedule:
+# Runs every day at 00:00 UTC
+- cron: '0 0 * * *'
+workflow_dispatch:
 
 jobs:
-  sync:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: tgymnich/fork-sync@v1.9
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          owner: quarto-dev
-          base: main
+sync:
+runs-on: ubuntu-latest
+steps:
+- name: Sync Fork
+uses: tgymnich/fork-sync@v1.9
+with:
+# Use 'token' instead of 'github_token'
+# The GitHub token is automatically provided as a secret
+token: ${{ secrets.GITHUB_TOKEN }}
+# The owner of the upstream (original) repository
+owner: quarto-dev
+# The name of the upstream repository
+repo: quarto-cli
+# The branch to sync from (the upstream's main branch)
+head: main
+# The branch to sync to (your fork's main branch)
+base: main
